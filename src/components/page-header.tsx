@@ -12,26 +12,32 @@ export function pageHeader({
     title : string;
     className? : string;
 }){
-    return(
-        <div className={cn("flex items-center justify-between border-b px-4 py-4", className)}>
-              <div className="flex items-center gap-2">
-                  <SidebarTrigger/>
-                  <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
-                  <div className="flex items-center gap-3">
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href="mailto:shindepratik930@gmail.com">
-                        <ThumbsUp/>
-                        <span className="hidden lg:block">Feedback</span>
-                        </Link>
-                      </Button>
-                       <Button variant="outline" size="sm" asChild>
-                        <Link href="mailto:shindepratik930@gmail.com">
-                        <ThumbsUp/>
-                        <span className="hidden lg:block">Need Help?</span>
-                        </Link>
-                      </Button>
-                  </div>
-              </div>
-        </div>
-    )
-}
+    return (
+  <div className={cn("flex items-center justify-between border-b px-4 py-4", className)}>
+    
+    {/* LEFT SIDE */}
+    <div className="flex items-center gap-2">
+      <SidebarTrigger />
+      <h1 className="text-lg font-semibold tracking-tight">{title}</h1>
+    </div>
+
+    {/* RIGHT SIDE */}
+    <div className="flex items-center gap-3">
+      <Button variant="outline" size="sm" asChild>
+        <Link href="mailto:shindepratik930@gmail.com">
+          <ThumbsUp />
+          <span className="hidden lg:block">Feedback</span>
+        </Link>
+      </Button>
+
+      <Button variant="outline" size="sm" asChild>
+        <Link href="mailto:shindepratik930@gmail.com">
+          <ThumbsUp />
+          <span className="hidden lg:block">Need Help?</span>
+        </Link>
+      </Button>
+    </div>
+
+  </div>
+);
+};
