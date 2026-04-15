@@ -1,35 +1,47 @@
 "use client";
 
-import {createContext,useContext} from "react";
-import type{inferRouterOutputs} from "@trpc/server";
+import { createContext, useContext } from "react";
+import type { inferProcedureOutput } from "@trpc/server";
+import type { AppRouter } from "@/trpc/routers/_app";
 
-import type {AppRouter} from "@/trpc/routers/_app";
+type GetAllOutput =
+  inferProcedureOutput<AppRouter["voices"]["getAll"]>;
 
-type TTSVoiceItem = inferRouterOutputs<AppRouter>['voices']['getAll']['custom'][number];
+type TTSVoiceItem = GetAllOutput["custom"][number];
 
-interface TTSVoicesContextValue {
-    customVoices : TTSVoiceItem[];
-    systemVoices : TTSVoiceItem[];
-    allVoices : TTSVoiceItem[];
-};
-
-const TTSVoicesContext = createContext<TTSVoicesContextValue | null>(null);
-
-export function TTSVoicesProvider({children,value}:{children:React.ReactNode,value:TTSVoicesContextValue}){
-    return(
-        <TTSVoicesContext.Provider value={value}>
-            {children}
-        </TTSVoicesContext.Provider>
-    );
-};
-
-export function useTTSVoices(){
-    const context = useContext(TTSVoicesContext);
-
-    if(!context){
-        throw new Error("useTTSVoices must be used within a TTSVoicesProvider");
-    }
-
-    return context;
+export interface TTSVoicesContextValue {
+  customVoices: TTSVoiceItem[];
+  systemVoices: TTSVoiceItem[];
+  allVoices: TTSVoiceItem[];
 }
 
+export const TTSVoicesContext =
+  createContext<TTSVoicesContextValue | null>(null);
+
+type ProviderProps = {
+  children: React.ReactNode;
+  value: TTSVoicesContextValue;
+};
+
+export function TTSVoicesProvider({
+  children,
+  value,
+}: ProviderProps) {
+  return (
+    <TTSVoicesContext.Provider value={value}>
+      {children}
+    </TTSVoicesContext.Provider>
+  );
+}
+
+export function useTTSVoices(): TTSVoicesContextValue {
+  const context = useContext(TTSVoicesContext);
+
+  if (!context) {
+    throw new Error(
+      "useTTSVoices must be used within a TTSVoicesProvider"
+    );
+  }
+
+  return context;
+};
