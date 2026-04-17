@@ -19,7 +19,7 @@ export function TextInputPanel() {
     const isValid = useStore(form.store, (s) => s.isValid);
     
     return(
-        <div className="flex h-full min-h-0 flex-col flex-1">
+        <div className="flex min-h-0 flex-col flex-1">
             <div className="relative min-h-0 flex-1">
                 <form.Field name="text">
                     {(field) => (

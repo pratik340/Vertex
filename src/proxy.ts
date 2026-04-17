@@ -1,9 +1,12 @@
 import {clerkMiddleware,createRouteMatcher} from "@clerk/nextjs/server";
 import {NextRequest, NextResponse} from "next/server";
 
-const isPublicRoute = createRouteMatcher (["./sign-in(.*)","./sign-up(.*)",]);
+const isPublicRoute = createRouteMatcher ([
+     "/sign-in(.*)",
+  "/sign-up(.*)",
+]);
 
-const isOrgSelectionRoute = createRouteMatcher (["./org-selection(.*)",]);
+const isOrgSelectionRoute = createRouteMatcher (["/org-selection(.*)",]);
 
 export default clerkMiddleware(async (auth,req) => {
     const {userId,orgId} = await auth();
