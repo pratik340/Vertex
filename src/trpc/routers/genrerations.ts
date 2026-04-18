@@ -5,6 +5,7 @@ import {prisma} from "@/lib/db";
 import { uploadAudio } from "@/lib/r2";
 import { TEXT_MAX_LENGTH } from "@/features/text-to-speech/data/constant";
 import { createTRPCRouter,orgProcedure } from "../init";
+import  * as Sentry from "@sentry/node";
 
 export const generationRouter = createTRPCRouter({
     getById : orgProcedure
@@ -87,6 +88,13 @@ export const generationRouter = createTRPCRouter({
                             },
                             parseAs : "arrayBuffer",
                          });
+
+                          Sentry.logger.info("Generation started",{
+                            orgId : ctx.orgId,
+                           voiceId : input.voiceId,
+                           textLength : input.text.length,
+                          });
+
                          if(error){
                             throw new TRPCError({code:'INTERNAL_SERVER_ERROR',message:'Failed to generate audio'});
                          }
@@ -123,13 +131,23 @@ export const generationRouter = createTRPCRouter({
                                 where:{id:generationId},
                                 data:{r2ObjectKey},
                             });
-                           }catch{
+                              Sentry.logger.info("Audio Generated",{
+                            orgId : ctx.orgId,
+                            generationId : generation.id,
+                          });
+
+                           }catch(error){
                             if(generationId){
                                 await prisma.generation.delete({
                                     where:{id:generationId},
                                 })
                                 .catch(()=>{});
                             }
+                             Sentry.logger.error("Generation failed",{
+                            orgId : ctx.orgId,
+                           voiceId : input.voiceId,
+                           });
+
                              throw new TRPCError
                              ({code:'INTERNAL_SERVER_ERROR',message:'Failed to save generation'});
                            }

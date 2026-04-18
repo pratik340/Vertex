@@ -45,3 +45,5 @@ next-env.d.ts
 /scripts/system-voices
 /_pycache_
 chatterbox_tts.py
+# Sentry Config File
+.env.sentry-build-plugin
