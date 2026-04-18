@@ -2,21 +2,25 @@
 
 import { useStore } from "@tanstack/react-form";
 import { Coins } from "lucide-react";
-
+import { SettingsDrawer } from "./settings-drawer";
+import { HistoryDrawer } from "./history-drawer";
 import { Badge } from "@/components/ui/badge";
 import {useTypedAppFormContext} from "@/hooks/use-app-form";
 import { Textarea } from "@/components/ui/textarea";
-
+import {useState} from "react";
 import { TEXT_MAX_LENGTH } from "../data/constant";
 import {COST_PER_UNIT} from "../data/constant";
 import { ttsFormOptions } from "./text-to-speech-form";
 import { GenerateButton } from "./generate-button";
+import { VoiceSelectorButton } from "./voice-selector-button";
+import { PromptSuggestions } from "./prompt-suggestions";
 
 export function TextInputPanel() {
     const form = useTypedAppFormContext(ttsFormOptions);    
     const text = useStore(form.store, (s) => s.values.text);
     const isSubmitting = useStore(form.store, (s) => s.isSubmitting);
     const isValid = useStore(form.store, (s) => s.isValid);
+    const [open,setOpen] = useState(false);
     
     return(
         <div className="flex min-h-0 flex-col flex-1">
@@ -39,8 +43,14 @@ export function TextInputPanel() {
             <div className="shrink-0 p-4 lg:p-6">
                 {/* mobile layout */}
                 <div className="flex flex-col gap-3 lg:hidden">
+                    <div className="flex items-center gap-2">
+                       <SettingsDrawer open={open} onOpenChange={setOpen}>
+                        <VoiceSelectorButton/>
+                       </SettingsDrawer>
+                       <HistoryDrawer/>
+                    </div>
                     <GenerateButton
-                    className="w-full"
+                    className="w-full" 
                     disabled={isSubmitting}
                     isSubmitting={isSubmitting}
                     onSubmit={() => form.handleSubmit()}
@@ -75,9 +85,9 @@ export function TextInputPanel() {
                         </div>
                     ):(
                         <div className="hidden lg:block">
-                            <p className="text-sm text-muted-foreground">
-                                Enter some text to generate speech.
-                            </p>
+                            <PromptSuggestions
+                            onSelect={(prompt)=>form.setFieldValue("text",prompt)}
+                            />
                         </div>
                     )}
             </div>

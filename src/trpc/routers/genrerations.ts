@@ -39,9 +39,9 @@ export const generationRouter = createTRPCRouter({
                     r2ObjectKey : true,
                 }
     });
-           return{
-            ...generation
-           }
+           return generation;
+            
+           
 }),
     
     create : orgProcedure
