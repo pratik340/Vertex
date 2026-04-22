@@ -3,6 +3,9 @@ import {createEnv} from "@t3-oss/env-nextjs";
 
 export const env = createEnv ({
     server: {
+        POLAR_ACCESS_TOKEN : z.string().min(1),
+        POLAR_SERVER : z.enum(["sandbox","production"]).default("sandbox"),
+        POLAR_PRODUCT_ID : z.string().min(1),
         DATABASE_URL: z.string().min(1),
         APP_URL: z.string().min(1),
         R2_ACCOUNT_ID: z.string().min(1),
@@ -13,6 +16,9 @@ export const env = createEnv ({
        CHATTERBOX_API_URL: z.url(),
     },
     runtimeEnv:{
+        POLAR_ACCESS_TOKEN : process.env.POLAR_ACCESS_TOKEN,
+        POLAR_SERVER : process.env.POLAR_SERVER,
+        POLAR_PRODUCT_ID : process.env.POLAR_PRODUCT_ID,
         DATABASE_URL: process.env.DATABASE_URL,
         APP_URL: process.env.APP_URL,
         R2_ACCOUNT_ID: process.env.R2_ACCOUNT_ID,

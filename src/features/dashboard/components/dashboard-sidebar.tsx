@@ -35,6 +35,8 @@ import {
   Settings,
   Headphones,
 } from "lucide-react";
+import { UsageContainer } from "@/features/billing/components/usage-container";
+import { VoiceCreateDialog } from "@/features/voices/components/voice-create-dialog";
 
 interface MenuItem {
   title: string;
@@ -107,6 +109,7 @@ export function DashboardSidebar() {
 
   /* Hydration fix for Clerk widgets */
   const [mounted, setMounted] = useState(false);
+  const [voiceDialogOpen,setVoiceDialogOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -131,6 +134,7 @@ export function DashboardSidebar() {
     {
       title: "Voice Cloning",
       icon: Volume2,
+      onClick : ()=>setVoiceDialogOpen(true),
     },
   ];
 
@@ -149,6 +153,12 @@ export function DashboardSidebar() {
   ];
 
   return (
+    <>
+     <VoiceCreateDialog
+     open={voiceDialogOpen}
+     onOpenChange={setVoiceDialogOpen}
+     />
+    
     <Sidebar collapsible="icon">
       {/* HEADER */}
       <SidebarHeader className="flex flex-col gap-4 pt-4">
@@ -205,6 +215,7 @@ export function DashboardSidebar() {
 
       {/* FOOTER */}
       <SidebarFooter className="gap-3 py-3">
+        <UsageContainer/>
         <SidebarMenu>
           <SidebarMenuItem>
             {mounted ? (
@@ -223,5 +234,6 @@ export function DashboardSidebar() {
 
       <SidebarRail />
     </Sidebar>
+    </>
   );
 }
