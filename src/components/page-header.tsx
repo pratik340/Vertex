@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
-export function pageHeader({
+export function PageHeader({
     title,
     className,
 }:{
