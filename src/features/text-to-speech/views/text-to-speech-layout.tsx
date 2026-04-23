@@ -1,4 +1,4 @@
-import {pageHeader as PageHeader } from "@/components/page-header";
+import {PageHeader as PageHeader } from "@/components/page-header";
 
 export  function TextToSpeechLayout({
     children,
